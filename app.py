@@ -9,6 +9,14 @@ def index():
     return render_template("index.html")
 
 
+@app.route("/dinosaurs", methods=["GET"])
+def process_query(query):
+    if query == "dinosaurs":
+        return "Dinosaurs ruled the Earth 200 million years ago"
+    else:
+        return "Unknown"
+
+
 @app.route("/submit", methods=["POST"])
 def submit():
     prompt = request.form.get("prompt")
