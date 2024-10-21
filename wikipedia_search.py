@@ -1,5 +1,5 @@
 import requests
-from bs4 import BeautifulSoup
+
 
 def search_wikipedia(prompt):
     # Format the prompt for the Wikipedia search URL
