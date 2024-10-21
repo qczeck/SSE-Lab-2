@@ -27,6 +27,7 @@ def submit():
         return render_template("index.html", error="No Wikipedia page found"
                                "for this prompt. Please try again.")
 
+
 def process_query(query):
     if query == "dinosaurs":
         return "Dinosaurs ruled the Earth 200 million years ago"
