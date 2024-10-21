@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from wikipedia_search import search_wikipedia
 
+
 app = Flask(__name__)
 
 
