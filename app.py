@@ -13,7 +13,7 @@ def index():
 @app.route("/query", methods=["GET"])
 def query():
     q = request.args.get('q')
-    process_query(q)
+    return process_query(q)
 
 
 @app.route("/submit", methods=["POST"])
