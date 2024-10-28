@@ -21,3 +21,7 @@ def test_finds_largest_number_out_of_three():
 
 def test_does_sum_of_numbers_work():
     assert process_query("What is 91 plus 30?") == '121'
+
+
+def test_does_product_of_numbers_work():
+    assert process_query("What is 53 multiplied by 78?") == '4134'
