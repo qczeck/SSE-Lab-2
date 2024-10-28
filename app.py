@@ -41,6 +41,14 @@ def process_query(query):
         return str(int(query.split()[2]) - int(query.split()[4].rstrip('?')))
     elif "multiplied" in query:
         return str(int(query.split()[2]) * int(query.split()[-1].rstrip("?")))
+    elif "prime" in query:
+        output = ""
+        list_of_numbers_with_commas = query.split()[-5:]
+        for number in list_of_numbers_with_commas:
+            number = int(number.rstrip(",?"))
+            if is_prime(number):
+                output += str(number) + ", "
+        return output.rstrip(", ")
     elif "both a square and a cube" in query:
         list_of_numbers_with_commas = query.split()[-7:]
         for num in list_of_numbers_with_commas:
@@ -55,3 +63,12 @@ def is_square_and_cube(num):
     root_square = int(num**0.5)
     root_cube = int(num**(1/3))
     return root_square**2 == num and root_cube**3 == num
+
+
+def is_prime(n):
+    if n <= 1:
+        return False
+    for i in range(2, int(n ** 0.5) + 1):
+        if n % i == 0:
+            return False
+    return True
