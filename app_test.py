@@ -15,4 +15,5 @@ def test_does_know_your_name():
 
 
 def test_finds_largest_number_out_of_three():
-    assert process_query("Which of the following numbers is the largest: 24, 47, 98?") == "98"
+    assert process_query("Which of the following numbers"
+                         " is the largest: 24, 47, 98?") == "98"

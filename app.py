@@ -34,7 +34,6 @@ def process_query(query):
     elif query == "What is your name?":
         return "Mac"
     elif query.startswith("Which of the following numbers is the largest"):
-        return = str(sorted(list(map(int, test[-11:-1].split(","))))[-1])
-
+        return str(sorted(list(map(int, query[-11:-1].split(","))))[-1])
     else:
         return "Unknown"
