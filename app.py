@@ -37,6 +37,8 @@ def process_query(query):
         return str(sorted(list(map(int, query[-11:-1].split(","))))[-1])
     elif "plus" in query:
         return str(int(query.split()[2]) + int(query.split()[4].rstrip('?')))
+    elif "minus" in query:
+        return str(int(query.split()[2]) - int(query.split()[4].rstrip('?')))
     elif "multiplied" in query:
         return str(int(query.split()[2]) * int(query.split()[-1].rstrip("?")))
     else:
