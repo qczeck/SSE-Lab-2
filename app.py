@@ -10,8 +10,8 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/query", methods=["GET"])
-def query():
+@app.route("/query")
+def process_query():
     q = request.args.get('q')
     return process_query(q)
 
@@ -31,5 +31,7 @@ def submit():
 def process_query(query):
     if query == "dinosaurs":
         return "Dinosaurs ruled the Earth 200 million years ago"
+    elif query == "What is your name?":
+        return "Mac"
     else:
         return "Unknown"
