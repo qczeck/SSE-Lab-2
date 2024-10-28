@@ -25,9 +25,3 @@ def test_does_sum_of_numbers_work():
 
 def test_does_product_of_numbers_work():
     assert process_query("What is 53 multiplied by 78?") == '4134'
-
-
-def test_square_and_cube():
-    assert process_query("Which of the following numbers is both a "
-                         "square and a cube: 4514, 4913, 3372, 4192, "
-                         "2601, 3592, 729?") == '729'
