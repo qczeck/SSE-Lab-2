@@ -11,7 +11,7 @@ def index():
 
 
 @app.route("/query")
-def process_query():
+def process_response():
     q = request.args.get('q')
     return process_query(q)
 
