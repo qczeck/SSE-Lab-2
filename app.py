@@ -4,20 +4,22 @@ import requests
 
 app = Flask(__name__)
 
-
 @app.route("/")
 def index():
     return render_template("index.html")
+
 
 @app.route("/github")
 def github_form():
     return render_template('github_form.html')
 
 
+
 @app.route("/query")
 def process_response():
     q = request.args.get('q')
     return process_query(q)
+
 
 
 @app.route("/submit", methods=["POST"])
@@ -31,24 +33,24 @@ def submit():
         return render_template("index.html", error="No Wikipedia page found"
                                "for this prompt. Please try again.")
 
+
 @app.route("/github/submit", methods = ["POST"])
 def lookup():
     username = request.form.get('username')
     response = requests.get(f"https://api.github.com/users/{username}/repos")
 
-
     # Check if the response is successful
-# Check if the response is successful
     if response.status_code == 200:
         repos = response.json()  # GitHub API returns a list of 'repository' entities
         repo_data = []  # Initialize a list to store repository data
 
         for repo in repos:
-            commits_response = requests.get(repo["commits_url"].replace('{/sha}', ''))
+            commits_response = requests.get(
+                repo["commits_url"].replace('{/sha}', '')
+            )
 
             # Initialize latest_commit to None at the start of each iteration
             latest_commit = None
-
             # Check if the commits response is successful
             if commits_response.status_code == 200:
                 commits = commits_response.json()
@@ -70,6 +72,8 @@ def lookup():
                 "last_updated": repo["updated_at"],
                 "latest_commit": latest_commit_info,
                 "url": repo["html_url"]  # Link to the repository's GitHub page
+                "clone_url": repo["clone_url"],
+                "ssh_url": repo["ssh_url"]
             })
 
         # Render the results in the template
