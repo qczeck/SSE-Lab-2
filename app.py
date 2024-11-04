@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request
 from wikipedia_search import search_wikipedia
-
+import requests
 
 app = Flask(__name__)
 
@@ -34,17 +34,48 @@ def submit():
 @app.route("/github/submit", methods = ["POST"])
 def lookup():
     username = request.form.get('username')
-    response = request.get(f" https://api.github.com/users/ss5921/repos")
+    response = requests.get(f"https://api.github.com/users/{username}/repos")
 
 
     # Check if the response is successful
+# Check if the response is successful
     if response.status_code == 200:
         repos = response.json()  # GitHub API returns a list of 'repository' entities
+        repo_data = []  # Initialize a list to store repository data
+
         for repo in repos:
-            print(repo["full_name"])  # Corrected to use straight quotes
-        return "Repositories fetched successfully. Check console for output."
+            commits_response = requests.get(repo["commits_url"].replace('{/sha}', ''))
+
+            # Initialize latest_commit to None at the start of each iteration
+            latest_commit = None
+
+            # Check if the commits response is successful
+            if commits_response.status_code == 200:
+                commits = commits_response.json()
+                # Get the latest commit if available
+                if commits:  # If there are commits
+                    latest_commit = commits[0]  # Assign the latest commit
+
+            # Prepare the latest commit info
+            latest_commit_info = {
+                "hash": latest_commit["sha"] if latest_commit else "No commits found",
+                "author": latest_commit["commit"]["author"]["name"] if latest_commit else "N/A",
+                "date": latest_commit["commit"]["author"]["date"] if latest_commit else "N/A",
+                "message": latest_commit["commit"]["message"] if latest_commit else "N/A",
+            }
+
+            # Append the repository data
+            repo_data.append({
+                "name": repo["name"],
+                "last_updated": repo["updated_at"],
+                "latest_commit": latest_commit_info,
+                "url": repo["html_url"]  # Link to the repository's GitHub page
+            })
+
+        # Render the results in the template
+        return render_template("github_results.html", username=username, repo_data=repo_data)
     else:
-        return f"User {username} not found", 404
+        return render_template("github_form.html", error=f"User {username} not found.")
 
 
 def process_query(query):

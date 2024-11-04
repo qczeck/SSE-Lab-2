@@ -1,0 +1,40 @@
+<!-- github_results.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GitHub Repositories for {{ username }}</title>
+</head>
+<body>
+    <h1>Repositories for {{ username }}</h1>
+    
+    {% if repo_data %}
+        <table border="1">
+            <tr>
+                <th>Repository Name</th>
+                <th>Last Updated</th>
+                <th>Latest Commit Hash</th>
+                <th>Author</th>
+                <th>Date</th>
+                <th>Commit Message</th>
+                <th>Github Link</th>
+            </tr>
+            {% for repo in repo_data %}
+                <tr>
+                    <td>{{ repo.name }}</td>
+                    <td>{{ repo.last_updated }}</td>
+                    <td>{{ repo.latest_commit.hash }}</td>
+                    <td>{{ repo.latest_commit.author }}</td>
+                    <td>{{ repo.latest_commit.date }}</td>
+                    <td>{{ repo.latest_commit.message }}</td>
+                    <td><a href="{{ repo.url }}" target="_blank">View on GitHub</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <p>No repositories found for this user.</p>
+    {% endif %}
+
+    <a href="/github">Search another username</a>
+</body>
+</html>
