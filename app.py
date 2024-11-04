@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request
 from wikipedia_search import search_wikipedia
 import requests
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
+
 
 @app.route("/")
 def index():
@@ -14,12 +15,10 @@ def github_form():
     return render_template('github_form.html')
 
 
-
 @app.route("/query")
 def process_response():
     q = request.args.get('q')
     return process_query(q)
-
 
 
 @app.route("/submit", methods=["POST"])
@@ -30,35 +29,32 @@ def submit():
     if url:
         return render_template("hello.html", url=url, prompt=prompt)
     else:
-        return render_template("index.html", error="No Wikipedia page found"
-                               "for this prompt. Please try again.")
+        return render_template(
+            "index.html",
+            error="No Wikipedia page found for this prompt. Please try again."
+        )
 
 
-@app.route("/github/submit", methods = ["POST"])
+@app.route("/github/submit", methods=["POST"])
 def lookup():
     username = request.form.get('username')
     response = requests.get(f"https://api.github.com/users/{username}/repos")
 
-    # Check if the response is successful
     if response.status_code == 200:
-        repos = response.json()  # GitHub API returns a list of 'repository' entities
-        repo_data = []  # Initialize a list to store repository data
+        repos = response.json()
+        repo_data = []
 
         for repo in repos:
             commits_response = requests.get(
                 repo["commits_url"].replace('{/sha}', '')
             )
 
-            # Initialize latest_commit to None at the start of each iteration
             latest_commit = None
-            # Check if the commits response is successful
             if commits_response.status_code == 200:
                 commits = commits_response.json()
-                # Get the latest commit if available
-                if commits:  # If there are commits
-                    latest_commit = commits[0]  # Assign the latest commit
+                if commits:
+                    latest_commit = commits[0]
 
-            # Prepare the latest commit info
             latest_commit_info = {
                 "hash": latest_commit["sha"] if latest_commit else "No commits found",
                 "author": latest_commit["commit"]["author"]["name"] if latest_commit else "N/A",
@@ -66,17 +62,15 @@ def lookup():
                 "message": latest_commit["commit"]["message"] if latest_commit else "N/A",
             }
 
-            # Append the repository data
             repo_data.append({
                 "name": repo["name"],
                 "last_updated": repo["updated_at"],
                 "latest_commit": latest_commit_info,
-                "url": repo["html_url"],  # Link to the repository's GitHub page
+                "url": repo["html_url"],
                 "clone_url": repo["clone_url"],
                 "ssh_url": repo["ssh_url"]
             })
 
-        # Render the results in the template
         return render_template("github_results.html", username=username, repo_data=repo_data)
     else:
         return render_template("github_form.html", error=f"User {username} not found.")
@@ -126,3 +120,4 @@ def is_prime(n):
         if n % i == 0:
             return False
     return True
+
