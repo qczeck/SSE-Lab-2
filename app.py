@@ -9,6 +9,10 @@ app = Flask(__name__)
 def index():
     return render_template("index.html")
 
+@app.route("/github")
+def github_form():
+    return render_template('github_form.html')
+
 
 @app.route("/query")
 def process_response():
@@ -26,6 +30,21 @@ def submit():
     else:
         return render_template("index.html", error="No Wikipedia page found"
                                "for this prompt. Please try again.")
+
+@app.route("/github/submit", methods = ["POST"])
+def lookup():
+    username = request.form.get('username')
+    response = request.get(f" https://api.github.com/users/ss5921/repos")
+
+
+    # Check if the response is successful
+    if response.status_code == 200:
+        repos = response.json()  # GitHub API returns a list of 'repository' entities
+        for repo in repos:
+            print(repo["full_name"])  # Corrected to use straight quotes
+        return "Repositories fetched successfully. Check console for output."
+    else:
+        return f"User {username} not found", 404
 
 
 def process_query(query):

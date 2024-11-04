@@ -1,0 +1,15 @@
+<!-- github_form.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GitHub Username Lookup</title>
+</head>
+<body>
+    <h1>Enter a GitHub Username</h1>
+    <form action="{{ url_for('github_submit') }}" method="post">
+        <input type="text" name="username" placeholder="GitHub Username" required>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
