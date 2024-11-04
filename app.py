@@ -71,7 +71,7 @@ def lookup():
                 "name": repo["name"],
                 "last_updated": repo["updated_at"],
                 "latest_commit": latest_commit_info,
-                "url": repo["html_url"]  # Link to the repository's GitHub page
+                "url": repo["html_url"],  # Link to the repository's GitHub page
                 "clone_url": repo["clone_url"],
                 "ssh_url": repo["ssh_url"]
             })
