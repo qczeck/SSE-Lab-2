@@ -56,10 +56,14 @@ def lookup():
                     latest_commit = commits[0]
 
             latest_commit_info = {
-                "hash": latest_commit["sha"] if latest_commit else "No commits found",
-                "author": latest_commit["commit"]["author"]["name"] if latest_commit else "N/A",
-                "date": latest_commit["commit"]["author"]["date"] if latest_commit else "N/A",
-                "message": latest_commit["commit"]["message"] if latest_commit else "N/A",
+                "hash": latest_commit["sha"] 
+                if latest_commit else "No commits found",
+                "author": latest_commit["commit"]["author"]["name"] 
+                if latest_commit else "N/A",
+                "date": latest_commit["commit"]["author"]["date"] 
+                if latest_commit else "N/A",
+                "message": latest_commit["commit"]["message"] 
+                if latest_commit else "N/A",
             }
 
             repo_data.append({
@@ -71,9 +75,14 @@ def lookup():
                 "ssh_url": repo["ssh_url"]
             })
 
-        return render_template("github_results.html", username=username, repo_data=repo_data)
+        return render_template(
+            "github_results.html", 
+            username=username, 
+            repo_data=repo_data)
     else:
-        return render_template("github_form.html", error=f"User {username} not found.")
+        return render_template(
+            "github_form.html", 
+            error=f"User {username} not found.")
 
 
 def process_query(query):
