@@ -58,20 +58,20 @@ def lookup():
             latest_commit_info = {
                 "hash": latest_commit["sha"]
                 if latest_commit else "No commits found",
-                "author": latest_commit["commit"]["author"]["name"] 
+                "author": latest_commit["commit"]["author"]["name"]
                 if latest_commit else "N/A",
-                "date": latest_commit["commit"]["author"]["date"] 
+                "date": latest_commit["commit"]["author"]["date"]
                 if latest_commit else "N/A",
-                "message": latest_commit["commit"]["message"] 
+                "message": latest_commit["commit"]["message"]
                 if latest_commit else "N/A",
             }
-            
+
             languages_response = requests.get(repo["languages_url"])
             languages = (
-                languages_response.json() 
+                languages_response.json()
                 if languages_response.status_code == 200 else {}
             )
-        
+
             repo_data.append({
                 "name": repo["name"],
                 "last_updated": repo["updated_at"],
@@ -83,12 +83,12 @@ def lookup():
             })
 
         return render_template(
-            "github_results.html", 
-            username=username, 
+            "github_results.html",
+            username=username,
             repo_data=repo_data)
     else:
         return render_template(
-            "github_form.html", 
+            "github_form.html",
             error=f"User {username} not found.")
 
 
@@ -125,7 +125,7 @@ def process_query(query):
 
 def is_square_and_cube(num):
     root_square = int(num**0.5)
-    root_cube = int(num**(1/3))
+    root_cube = int(num**(1 / 3))
     return root_square**2 == num and root_cube**3 == num
 
 
