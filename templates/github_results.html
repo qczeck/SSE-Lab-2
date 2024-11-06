@@ -17,6 +17,7 @@
                 <th>Author</th>
                 <th>Date</th>
                 <th>Commit Message</th>
+                <th>Languages</th>
                 <th>Github Link</th>
             </tr>
             {% for repo in repo_data %}
@@ -27,6 +28,13 @@
                     <td>{{ repo.latest_commit.author }}</td>
                     <td>{{ repo.latest_commit.date }}</td>
                     <td>{{ repo.latest_commit.message }}</td>
+                    <td>
+                        <ul>
+                            {% for language, lines in repo.languages.items() %}
+                                <li>{{ language }}: {{ lines }} lines </li>
+                            {% endfor %}
+                        </ul>
+                    </td>
                     <td><a href="{{ repo.url }}" target="_blank">View on GitHub</a></td>
                 </tr>
             {% endfor %}
@@ -38,3 +46,5 @@
     <a href="/github">Search another username</a>
 </body>
 </html>
+
+
